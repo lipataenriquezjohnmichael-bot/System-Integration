@@ -60,6 +60,10 @@
 
 <script lang="ts" setup>
 // @ts-nocheck
+definePageMeta({
+  layout: 'false',
+  middleware: 'auth',
+})
 const config = useRuntimeConfig()
 const email = ref('')
 const password = ref('')

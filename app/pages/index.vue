@@ -1,31 +1,27 @@
 <template>
-  <v-app class="dashboard-app">
-    <v-navigation-drawer v-model="drawer" class="dashboard-drawer" width="250">
-      <div class="brand-mark"></div>
-      <div class="profile-mini"><v-avatar color="primary" size="42">
-        <v-img v-if="user?.picture && !imageFailed" :src="user.picture" @error="imageFailed = true" />
-        <span v-else>{{ initials }}</span></v-avatar>
-        <div class="profile-mini-copy"><strong>{{ user?.name || 'Guest User' }}</strong><small>{{ user?.email || 'Not signed in' }}</small></div></div><v-list class="nav-list" nav density="comfortable"><v-list-item prepend-icon="mdi-view-dashboard-outline" title="Welcome" to="/" exact /><v-list-item prepend-icon="mdi-qrcode-scan" title="Scan" to="/scan" /><v-list-item prepend-icon="mdi-camera-outline" title="HTML 5 QR Scanner" to="/htmlscanner" /></v-list><template #append><div class="drawer-footer"><v-btn block variant="text" prepend-icon="mdi-logout" @click="logout">Logout</v-btn><small>© 2026</small></div></template></v-navigation-drawer>
-    <v-app-bar class="dashboard-bar" elevation="0"><v-app-bar-nav-icon @click="drawer = !drawer" /><v-spacer /></v-app-bar>
-    <v-main class="dashboard-main">
-      <v-container class="dashboard-container">
-        <v-card v-if="user" class="profile-card pa-6">
-          <div class="d-flex align-center ga-4">
-            <v-avatar size="64">
-              <v-img :src="user.picture" />
-            </v-avatar>
-            <div>
-              <h2>{{ user.name }}</h2>
-              <p>{{ user.email }}</p>
-            </div>
-          </div>
-        </v-card>
-      </v-container>
-    </v-main>
-  </v-app>
+ <v-container>
+ <v-card v-if="user" class="pa-6">
+ <div class="d-flex align-center ga-4">
+ <v-avatar size="64">
+ <v-img :src="user.picture" />
+ </v-avatar>
+ <div>
+ <h2>{{ user.name }}</h2>
+ <p>{{ user.email }}</p>
+ </div>
+ </div>
+ </v-card>
+ <v-btn color="error" @click="logout">
+ Logout
+</v-btn>
+ </v-container>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'default',
+  middleware: 'auth',
+})
 const user = ref<any>(null)
 const imageFailed = ref(false)
 const drawer = ref(true)
